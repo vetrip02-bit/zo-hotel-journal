@@ -37,6 +37,12 @@ Then visit <http://localhost:8000>.
   track is sized before the side tracks, so it never collapses on narrow
   screens.
 
+- **Blocks.** Beyond the essay itself the page carries a seasonal figures
+  strip under the standfirst, a three-up *Notes for the season* aside, a dark
+  contact-sheet band of six small frames between the article and the booking
+  panel, and a three-card row of related entries. They exist to give a short
+  article enough substance to fill a wide screen.
+
 - **Figures** are numbered with a CSS counter (`Fig. 01`, `Fig. 02`, …) and sit
   in a clipping `.frame`, so the photograph can scale slightly on hover without
   nudging the layout.
@@ -44,8 +50,8 @@ Then visit <http://localhost:8000>.
 - **Images.** Hotlinked from the Unsplash CDN with `srcset`/`sizes`, explicit
   `width`/`height` (no layout shift), and `loading="lazy"` on everything below
   the cover. Swap the URLs for the hotel's own photography when it is ready —
-  keep the ratios (10:7 cover, 8:5 and 2:1 wide, 4:5 pair, 9:7 cards) and
-  nothing else has to move.
+  keep the ratios (3:2 cover, 16:9 and 5:2 wide, 1:1 pair, 3:2 cards, 1:1
+  contact sheet) and nothing else has to move.
 
 - **Motion.** The scroll reveal is a CSS scroll-driven animation behind
   `@supports (animation-timeline: view())`, so content is visible by default
@@ -68,6 +74,11 @@ Replace before this stands in for the real hotel:
 
 - The three cards under **More from the Journal** are sample entries. Their
   headlines and dates are invented and their links point back into this page.
+- The seasonal figures under the standfirst (rainfall, temperature, beach
+  flags, crowds) are rounded, indicative values for the Goan monsoon, not
+  measurements. Check them against a current source before publishing.
+- The three items under **Notes for the season** describe this fictional
+  house — the umbrella rack, the kitchen staying open.
 - The phone number, email and address in the footer.
 - The room count and what's included in the **Monsoon at Zo Hotel** panel.
 

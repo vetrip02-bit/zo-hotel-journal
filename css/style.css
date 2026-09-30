@@ -23,15 +23,15 @@
   --font: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           Helvetica, Arial, sans-serif;
 
-  --measure: 44rem;   /* text column               */
+  --measure: 48rem;   /* text column               */
   --wide:    76rem;   /* image column              */
-  --flank:   16rem;   /* (wide - measure) / 2      */
+  --flank:   14rem;   /* (wide - measure) / 2      */
   --gutter:  clamp(1rem, 2.2vw, 2rem);
   /* Outer containers match the article's wide track, so the masthead, the
      plates and the footer all sit on one vertical. */
   --bleed:   calc(var(--wide) + var(--gutter) * 2);
 
-  --step: clamp(2.75rem, 6vw, 4.5rem);  /* vertical rhythm between blocks */
+  --step: clamp(2.25rem, 4.4vw, 3.5rem);  /* vertical rhythm between blocks */
   --head: 3.7rem;                       /* masthead height, for anchors   */
 
   --ease: cubic-bezier(.2, .7, .3, 1);
@@ -442,6 +442,18 @@ a { color: inherit; }
   margin-bottom: 1rem;
 }
 
+/* Once there is room outside the measure, the numeral steps into the
+   margin and sits level with the heading instead of stacking above it. */
+@media (min-width: 72rem) {
+  .section h2 { position: relative; }
+  .section h2 .num {
+    position: absolute;
+    right: 100%; top: .5em;
+    margin: 0 2.75rem 0 0;
+    white-space: nowrap;
+  }
+}
+
 .lead { font-size: 1.12em; line-height: 1.66; color: var(--ink); }
 .lead::first-letter {
   float: left;
@@ -457,7 +469,7 @@ a { color: inherit; }
 /* pull quote — out into the wide column, hairlines above and below */
 .pull {
   grid-column: wide;
-  margin: calc(var(--step) * .85) 0 !important;
+  margin: calc(var(--step) * 1.1) 0 !important;
   padding: clamp(1.75rem, 4vw, 2.75rem) 0;
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
@@ -490,9 +502,65 @@ a { color: inherit; }
 }
 .sign span { color: var(--ink-2); }
 
+/* ---- seasonal figures ------------------------------------------------ */
+
+.stats {
+  grid-column: wide;
+  margin-top: calc(var(--step) * .9) !important;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+.stats div { padding: 1.1rem 1.25rem 1.2rem 0; }
+.stats div + div {
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--rule);
+}
+.stats dt { font-size: .58rem; line-height: 1; color: var(--muted); margin-bottom: .6rem; }
+.stats dd {
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  font-weight: 500; line-height: 1.25;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+@media (max-width: 52rem) {
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats div:nth-child(3) { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
+  .stats div:nth-child(4) { border-top: 1px solid var(--rule); }
+}
+
+/* ---- practical notes -------------------------------------------------- */
+
+.notes {
+  grid-column: wide;
+  margin: calc(var(--step) * 1.2) 0;
+  padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+.notes__title {
+  font-size: .6rem; font-weight: 500; line-height: 1;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.75rem;
+}
+.notes__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+}
+@media (max-width: 52rem) { .notes__grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+.notes__grid h3 {
+  font-size: 1rem; font-weight: 500;
+  letter-spacing: -.015em;
+  margin-bottom: .55rem;
+}
+.notes__grid p { font-size: .88rem; line-height: 1.75; color: var(--ink-2); }
+
 /* ---- figures --------------------------------------------------------- */
 
-.figure { margin: var(--step) 0; }
+.figure { margin: calc(var(--step) * 1.1) 0; }
 
 /* The frame clips, so the photograph can breathe on hover without nudging
    anything around it. */
@@ -501,6 +569,7 @@ a { color: inherit; }
   width: 100%;
   transition: transform 1.2s var(--ease);
 }
+.sheet__grid .frame img { transition: transform .8s var(--ease); }
 @media (hover: hover) {
   .figure:hover .frame img,
   .card a:hover .frame img { transform: scale(1.03); }
@@ -557,6 +626,57 @@ figcaption {
 }
 .pair figure { margin: 0; }
 @media (max-width: 40rem) { .pair { grid-template-columns: 1fr; } }
+
+/* ---- contact sheet ---------------------------------------------------- */
+
+/* A dark band between the essay and the booking panel: it breaks up a very
+   white page and lets a row of small frames carry the weight. */
+.sheet {
+  background: #0d0d0d;
+  color: #fff;
+  padding-block: clamp(3rem, 6vw, 4.5rem);
+}
+.sheet__inner { max-width: var(--bleed); margin-inline: auto; padding-inline: var(--gutter); }
+
+.sheet__head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .6rem 1.5rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(255,255,255,.22);
+  margin-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+.sheet__head h2 {
+  font-size: clamp(1.35rem, 2.3vw, 1.8rem);
+  font-weight: 500; letter-spacing: -.026em;
+  margin-right: auto;
+}
+.sheet__note {
+  font-size: .62rem; font-weight: 500; line-height: 1;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+}
+
+.sheet__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(.5rem, 1.2vw, 1rem);
+}
+@media (max-width: 64rem) { .sheet__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 30rem) { .sheet__grid { grid-template-columns: repeat(2, 1fr); } }
+
+.sheet__grid figure { margin: 0; }
+.sheet__grid .frame { background: #1a1a1a; aspect-ratio: 1; }
+.sheet__grid img { width: 100%; height: 100%; object-fit: cover; }
+.sheet__grid figcaption {
+  margin-top: .6rem;
+  font-size: .62rem; line-height: 1.4;
+  color: rgba(255,255,255,.5);
+  max-width: none;
+}
+@media (hover: hover) {
+  .sheet__grid figure:hover .frame img { transform: scale(1.04); }
+  .sheet__grid figure:hover figcaption { color: rgba(255,255,255,.85); }
+}
+.sheet__grid figcaption { transition: color .25s ease; }
 
 /* ---- stay block ------------------------------------------------------ */
 
@@ -748,6 +868,10 @@ figcaption {
   @media (prefers-reduced-motion: no-preference) {
     .section,
     .figure,
+    .stats,
+    .notes,
+    .sheet__head,
+    .sheet__grid figure,
     .stay__inner,
     .more__head,
     .card {
@@ -761,7 +885,7 @@ figcaption {
 /* ---- print ----------------------------------------------------------- */
 
 @media print {
-  .masthead, .rail, .progress, .grain, .cue, .stay, .more, .footer__nav { display: none !important; }
+  .masthead, .rail, .progress, .grain, .cue, .sheet, .stay, .more, .footer__nav { display: none !important; }
   body { background: #fff; color: #000; font-size: 11pt; }
   .cover { height: auto; min-height: 0; margin-top: 0; color: #000; background: none; }
   .cover__img, .cover::after { display: none; }
